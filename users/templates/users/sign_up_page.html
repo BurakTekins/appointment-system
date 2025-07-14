@@ -1,0 +1,242 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ff6347, #ffcc70);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        header, footer {
+            background: linear-gradient(to right, #ff6347, #ffcc70);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .login-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+        }
+        .login-box h2 {
+            margin-bottom: 20px;
+            color: #ff6347;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        .login-box button {
+            background: linear-gradient(to right, #ff6347, #ffcc70);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+        }
+        .login-box .login-link {
+            margin-top: 10px;
+            display: block;
+            color: #ff6347;
+            text-decoration: none;
+        }
+<<<<<<< HEAD
+        #message-box p {
+            color: red;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            display: none;
+            margin: 0;
+        }
+=======
+>>>>>>> ca6f786d3743ba4893ef7ccda14fe98137f5bca3
+    </style>
+</head>
+<body>
+    <header>
+<<<<<<< HEAD
+        <img src="{% static 'acu_muzik_logo.jpeg' %}" alt="ACU Müzik Logo" style="height:96px; display: block; margin: 32px auto 0 auto; cursor:pointer;" onclick="window.location.href='{% url 'home_page' %}'">
+=======
+        <a href="{% url 'home_page' %}">
+            <img src="{% static 'acu_muzik_logo.jpeg' %}" alt="ACU Müzik Logo" style="height:96px; display: block; margin: 32px auto 0 auto;">
+        </a>
+>>>>>>> ca6f786d3743ba4893ef7ccda14fe98137f5bca3
+    </header>
+
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Kayıt Ol</h2>
+<<<<<<< HEAD
+            <form method="POST" action="{% url 'sign_up' %}" onsubmit="return validateForm()">
+=======
+            <form method="POST" action="{% url 'sign_up' %}">
+>>>>>>> ca6f786d3743ba4893ef7ccda14fe98137f5bca3
+                {% csrf_token %}
+                {% if messages %}
+                    <div id="message-box">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <input type="text" name="name" placeholder="Ad" required>
+                <input type="text" name="surname" placeholder="Soyad" required>
+<<<<<<< HEAD
+                <div style="position: relative;">
+                    <input type="email" name="email" id="email" placeholder="Email" required>
+                    <p id="email-error" class="error-message">Lütfen Acıbadem uzantılı e-posta adresinizi kullanınız.</p>
+                </div>
+                <div style="position: relative;">
+                    <input type="password" name="password" id="password" placeholder="Şifre" required minlength="8" maxlength="25">
+                    <p id="password-error" class="error-message">Şifre 8-25 karakter uzunluğunda olmalı ve en az bir büyük harf ve bir rakam içermelidir.</p>
+                </div>
+                <div style="position: relative;">
+                    <input type="text" name="student_id" id="student_id" placeholder="Öğrenci Numarası" required pattern="\d{9}" maxlength="9">
+                    <p id="student-id-error" class="error-message">Öğrenci numaranız 9 rakamdan oluşmalıdır.</p>
+                </div>
+=======
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Şifre" required>
+                <input type="text" name="student_id" placeholder="Öğrenci Numarası" required>
+>>>>>>> ca6f786d3743ba4893ef7ccda14fe98137f5bca3
+                <button type="submit">Kayıt Ol</button>
+            </form>
+            <a href="{% url 'sign_in' %}" class="login-link">Zaten hesabınız var mı? Giriş Yap</a>
+        </div>
+    </div>
+
+    <footer>
+<<<<<<< HEAD
+        <p>&copy; 2025 Müzik Kulübü Rezervasyon Sistemi</p>
+    </footer>
+
+    <script>
+    function validateForm() {
+        let isValid = true;
+        
+        const email = document.getElementById('email').value;
+        const emailError = document.getElementById('email-error');
+        
+        if (!email.endsWith('@live.acibadem.edu.tr') && !email.endsWith('@acibadem.edu.tr')) {
+            emailError.style.display = 'block';
+            isValid = false;
+        } else {
+            emailError.style.display = 'none';
+        }
+        
+        const password = document.getElementById('password').value;
+        const passwordError = document.getElementById('password-error');
+        
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const validLength = password.length >= 8 && password.length <= 25;
+        
+        if (!hasUpperCase || !hasNumber || !validLength) {
+            passwordError.style.display = 'block';
+            isValid = false;
+        } else {
+            passwordError.style.display = 'none';
+        }
+                const studentId = document.getElementById('student_id').value;
+        const studentIdError = document.getElementById('student-id-error');
+        
+        if (!/^\d{9}$/.test(studentId)) {
+            studentIdError.style.display = 'block';
+            isValid = false;
+        } else {
+            studentIdError.style.display = 'none';
+        }
+        
+        return isValid;
+    }
+        document.getElementById('email').addEventListener('blur', function() {
+        const email = this.value;
+        const errorElement = document.getElementById('email-error');
+        
+        if (email && !email.endsWith('@live.acibadem.edu.tr') && !email.endsWith('@acibadem.edu.tr')) {
+            errorElement.style.display = 'block';
+        } else {
+            errorElement.style.display = 'none';
+        }
+    });
+    
+    let passwordTimeout;
+    document.getElementById('password').addEventListener('input', function() {
+        const errorElement = document.getElementById('password-error');
+        
+        clearTimeout(passwordTimeout);
+        
+        errorElement.style.display = 'none';
+        
+        passwordTimeout = setTimeout(() => {
+            const password = this.value;
+            
+            if (password) { 
+                const hasUpperCase = /[A-Z]/.test(password);
+                const hasNumber = /[0-9]/.test(password);
+                const validLength = password.length >= 8 && password.length <= 25;
+                
+                if (!hasUpperCase || !hasNumber || !validLength) {
+                    errorElement.style.display = 'block';
+                }
+            }
+        }, 1000); 
+    });
+    
+    document.getElementById('student_id').addEventListener('input', function() {
+        const studentId = this.value;
+        const errorElement = document.getElementById('student-id-error');
+        
+        // Only allow digits
+        this.value = studentId.replace(/\D/g, '');
+        
+        if (this.value.length < 9) {
+            errorElement.style.display = 'none';
+        } else if (this.value.length > 9) {
+            this.value = this.value.slice(0, 9);
+        }
+    });
+    
+    document.getElementById('student_id').addEventListener('blur', function() {
+        const errorElement = document.getElementById('student-id-error');
+        
+        if (this.value && this.value.length !== 9) {
+            errorElement.style.display = 'block';
+        } else {
+            errorElement.style.display = 'none';
+        }
+    });
+</script>
+</body>
+</html>
+=======
+        <p>&copy; 2025 Giriş Sistemi</p>
+    </footer>
+</body>
+</html>
+>>>>>>> ca6f786d3743ba4893ef7ccda14fe98137f5bca3

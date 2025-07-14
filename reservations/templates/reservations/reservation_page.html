@@ -1,0 +1,245 @@
+<<<<<<< HEAD
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h4 class="mb-4 text-center">Rezervasyon Oluştur</h4>
+
+{% if conflict_msg %}
+    <div class="alert alert-danger text-center">{{ conflict_msg }}</div>
+{% endif %}
+
+<form method="get" id="reservationForm" class="mb-4">
+    <div class="row">
+        <div class="col-md-6">
+            <label for="duration" class="form-label"><strong>Kaç saatlik rezervasyon?</strong></label>
+            <select class="form-select form-select-lg border-dark shadow-sm" id="duration" name="duration" required>
+                <option value="">Seçiniz</option>
+                <option value="1" {% if duration == 1 %}selected{% endif %}>1 Saat</option>
+                <option value="2" {% if duration == 2 %}selected{% endif %}>2 Saat</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="date" class="form-label"><strong>Tarih Seçin</strong></label>
+            <select class="form-select form-select-lg border-dark shadow-sm" id="date" name="date" required>
+                <option value="">Tarih Seçin</option>
+                {% for day in available_days %}
+                    <option value="{{ day|date:'Y-m-d' }}" {% if selected_date == day %}selected{% endif %}>
+                        {{ day|date:"l, d F Y" }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</form>
+
+{% if available_slots %}
+    <div class="row mt-4">
+        <h5 class="text-center mb-3">Saat Blokları</h5>
+        {% for slot in available_slots %}
+            <div class="col-md-3 mb-3">
+                <div class="border {% if slot.is_available %}border-success{% else %}border-danger{% endif %} rounded p-2 text-center">
+                    {{ slot.start|time:"H:i" }} - {{ slot.end|time:"H:i" }}
+                    {% if slot.is_available %}
+                        <form method="POST" action="{% url 'create_reservation' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="date" value="{{ selected_date }}">
+                            <input type="hidden" name="start_time" value="{{ slot.start|time:'H:i' }}">
+                            <input type="hidden" name="end_time" value="{{ slot.end|time:'H:i' }}">
+                            <button class="btn btn-sm btn-outline-success mt-2">Rezerve Et</button>
+                        </form>
+                    {% else %}
+                        <div class="text-danger mt-2">DOLU</div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const durationSelect = document.getElementById('duration');
+        const dateSelect = document.getElementById('date');
+        const form = document.getElementById('reservationForm');
+        
+        function checkAndSubmit() {
+            if (durationSelect.value && dateSelect.value) {
+                form.submit();
+            }
+        }
+        
+        durationSelect.addEventListener('change', checkAndSubmit);
+        dateSelect.addEventListener('change', checkAndSubmit);
+    });
+</script>
+{% endblock %}
+=======
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Rezervasyon Sayfası</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(to bottom right, #ff4d4d, #ff9933);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        header, nav {
+            background: linear-gradient(to right, #ff6347, #ffcc70);
+            color: white;
+        }
+        header {
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 10px 0;
+            font-weight: bold;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .user-info {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            text-align: right;
+        }
+        .container-box {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            margin: 40px auto;
+            max-width: 90%;
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a class="navbar-brand" href="{% url 'home_page' %}">
+                <img src="{% static 'acu_muzik_logo.jpeg' %}" alt="ACU Müzik Logo" style="height:96px; vertical-align:middle; margin-right:10px;">
+                MÜZİK KULÜBÜ
+            </a>    
+        </div>
+        <div class="user-info">
+            <div>Hoş geldin, <strong>{{ user.name }}</strong></div>
+            <button class="btn btn-outline-light btn-sm mt-1">🔑 Anahtar</button>
+        </div>
+    </header>
+
+    <nav>
+        <a href="{% url 'user_info' user.id %}">Kullanıcı Bilgileri</a>
+        <a href="{% url 'my_reservations' %}">Rezervasyonlarım</a>
+        <a onclick="showContact()">İletişim</a>
+    </nav>
+
+    <div class="container container-box">
+        <h4 class="mb-4 text-center">Rezervasyon Oluştur</h4>
+
+        <form method="get" class="mb-4">
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="duration" class="form-label">Kaç saatlik rezervasyon?</label>
+                    <select class="form-select" id="duration" name="duration" required>
+                        <option value="">Seçiniz</option>
+                        <option value="1" {% if duration == 1 %}selected{% endif %}>1 Saat</option>
+                        <option value="2" {% if duration == 2 %}selected{% endif %}>2 Saat</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="date" class="form-label">Gün seçin:</label>
+                    <input type="date" id="date" name="date" class="form-control" required value="{{ selected_date }}">
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Uygun Saatleri Göster</button>
+                </div>
+            </div>
+        </form>
+
+        {% if conflict_msg %}
+            <div class="alert alert-warning">{{ conflict_msg }}</div>
+        {% endif %}
+
+        {% if available_slots %}
+            <h5 class="mt-4">Uygun Seanslar</h5>
+            <form method="post" action="{% url 'create_reservation' %}">
+                {% csrf_token %}
+                <input type="hidden" name="date" value="{{ selected_date }}">
+                <input type="hidden" name="duration" value="{{ duration }}">
+                <div class="row">
+                    {% for slot in available_slots %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <strong>{{ slot.0 }} - {{ slot.1 }}</strong><br>
+                                    <input type="radio" name="start_time" value="{{ slot.0 }}" required>
+                                    <input type="hidden" name="end_time" value="{{ slot.1 }}">
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">Rezervasyon Yap</button>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+
+    <div class="modal fade" id="contactModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title">İletişim Bilgileri</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Telefon:</strong> +90 555 123 4567</p>
+                    <p><strong>Email:</strong> muzikkulubu@example.com</p>
+                    <p><strong>Adres:</strong> ACU Kampüsü, A Blok, Müzik Kulübü</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Rezervasyon Sistemi</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showContact() {
+            var myModal = new bootstrap.Modal(document.getElementById('contactModal'));
+            myModal.show();
+        }
+    </script>
+
+</body>
+</html>
+>>>>>>> ca6f786d3743ba4893ef7ccda14fe98137f5bca3

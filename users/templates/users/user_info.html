@@ -1,0 +1,188 @@
+<<<<<<< HEAD
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .user-info-container {
+        max-width: 500px;
+        margin: 30px auto;
+        padding: 25px;
+        background-color: white
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .form-field {
+        margin-bottom: 20px;
+    }
+    .form-field label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+    }
+    .form-field input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+    .btn-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="user-info-container">
+    <h2 class="text-center mb-4">Kullanıcı Bilgilerim</h2>
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="form-field">
+            <label for="id_email">E-posta</label>
+            {{ form.email }}
+        </div>
+        
+        <div class="form-field">
+            <label for="id_password">Şifre</label>
+            <input type="password" name="password" id="id_password" class="form-control" placeholder="Yeni şifre">
+        </div>
+        
+        <div class="btn-row">
+            <button type="submit" class="btn btn-success">Güncelle</button>
+            
+            <button type="button" class="btn btn-danger" 
+                    onclick="if(confirm('Hesabınızı silmek istediğinizden emin misiniz?')) { 
+                        document.getElementById('delete-form').submit(); 
+                    }">
+                Hesabı Sil
+            </button>
+        </div>
+    </form>
+    
+    <form id="delete-form" method="POST" action="{% url 'delete_user' user.id %}" style="display:none;">
+        {% csrf_token %}
+    </form>
+</div>
+{% endblock %}
+=======
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Bilgileri Güncelle</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(to bottom right, #ff4d4d, #ff9933);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        header, nav {
+            background: linear-gradient(to right, #ff6347, #ffcc70);
+            color: white;
+        }
+        header {
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 10px 0;
+            font-weight: bold;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+        }
+        .container-box {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            margin: 40px auto;
+            max-width: 600px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: white;
+        }
+        /* Consistent input sizing and alignment */
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        form p {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        form label {
+            margin-bottom: 5px;
+            font-weight: 500;
+            width: 100%;
+            text-align: left;
+        }
+        form input, form select, form textarea {
+            width: 100% !important;
+            min-width: 0;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a class="navbar-brand" href="{% url 'home_page' %}">
+                <img src="{% static 'acu_muzik_logo.jpeg' %}" alt="ACU Müzik Logo" style="height:96px; vertical-align:middle; margin-right:10px;">
+                MÜZİK KULÜBÜ
+            </a>
+        </div>
+        <div class="user-info">
+            <div>Hoş geldin, <strong>{{ user.name }}</strong></div>
+            <button class="btn btn-outline-light btn-sm mt-1">🔑 Anahtar</button>
+        </div>
+    </header>
+
+    <nav>
+        <a href="{% url 'user_info' user.id %}">Kullanıcı Bilgileri</a>
+        <a href="{% url 'user_reservation' user.id %}">Rezervasyonlarım</a>
+        <a href="#">İletişim</a>
+    </nav>
+
+    <div class="container container-box">
+        <h3 class="mb-4 text-center">Bilgilerini Güncelle</h3>
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success">Güncelle</button>
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Rezervasyon Sistemi</p>
+    </footer>
+
+</body>
+</html>
+>>>>>>> ca6f786d3743ba4893ef7ccda14fe98137f5bca3

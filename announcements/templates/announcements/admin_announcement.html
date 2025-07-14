@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container-box">
+        <h2 class="mb-4 text-center">Yeni Duyuru Oluştur</h2>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="{{ form.title.id_for_label }}" class="form-label">{{ form.title.label }}</label>
+                {{ form.title.errors }}
+                <input type="text" name="{{ form.title.name }}" id="{{ form.title.id_for_label }}" class="form-control" value="{{ form.title.value|default:'Genel Duyuru: ' }}" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.textField.id_for_label }}" class="form-label">{{ form.textField.label }}</label>
+                {{ form.textField.errors }}
+                <textarea name="{{ form.textField.name }}" id="{{ form.textField.id_for_label }}" class="form-control" rows="5" required>{{ form.textField.value|default:'' }}</textarea>
+            </div>
+            
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Duyuru Oluştur</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

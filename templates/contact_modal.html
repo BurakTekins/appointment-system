@@ -1,0 +1,27 @@
+{% comment %} Shared modal for İletişim and showContact() function {% endcomment %}
+
+<div class="modal fade" id="contactModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-3">
+            <div class="modal-header">
+                <h5 class="modal-title">İletişim Bilgileri</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Telefon:</strong> +90 555 123 4567</p>
+                <p><strong>Email:</strong> muzikkulubu@example.com</p>
+                <p><strong>Adres:</strong> ACU Kampüsü, A Blok, Müzik Kulübü</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showContact() {
+        var myModal = new bootstrap.Modal(document.getElementById('contactModal'));
+        myModal.show();
+    }
+</script>
